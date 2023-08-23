@@ -13,7 +13,7 @@ const Login = () => {
     const [loginEnable, setLoginEnable] = useState(false)
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     return (
-        <View style={[StyleCommon.container, Colors.backgroundColor]}>
+        <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
             <View style={styles.content}>
                 <Text style={[StyleCommon.title, { opacity: 0.87 }, Colors.white]}>Login</Text>
                 <View style={styles.username}>
@@ -56,7 +56,7 @@ const Login = () => {
             </View>
             <View style={styles.bottomButton}>
                 {loginEnable ?
-                    <TouchableOpacity onPress={() => { }} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Home')}} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
                         <Text style={[StyleCommon.normalText]}>Login</Text>
                     </TouchableOpacity> :
                     <TouchableOpacity disabled={true} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50, opacity: 0.5}]}>
@@ -75,7 +75,7 @@ const Login = () => {
             <View style={styles.bottomButtonLogin3th}>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../../assets/gglogo.png')}
+                        source={require('../../assets/3thLogo/gglogo.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
@@ -83,7 +83,7 @@ const Login = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../../assets/appleicon.png')}
+                        source={require('../../assets/3thLogo/appleicon.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />

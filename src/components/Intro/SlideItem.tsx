@@ -15,7 +15,7 @@ interface IntroProps {
 const SlideItem : React.FC<IntroProps> = ({intro}) : JSX.Element => {
     
     return (
-        <View style={[StyleCommon.container]}>
+        <View style={[StyleCommon.container,{alignItems:'center'}]}>
             <Image source={intro.img} resizeMode='contain' style={StyleCommon.introImg} />
             <View style={styles.content}>
                 <Text style={[StyleCommon.title, Colors.white]}>{intro.title}</Text>

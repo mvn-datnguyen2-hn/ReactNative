@@ -5,12 +5,11 @@ const { width, height } = Dimensions.get('screen')
 const StyleCommon = StyleSheet.create({
     container : {
         width,
-        height,
-        alignItems: 'center'
+        height
     },
     introImg : {
         width: '50%',
-        height: '40%'
+        height: '40%',
     },
     icon : {
         width: '10%',
@@ -53,6 +52,25 @@ const StyleCommon = StyleSheet.create({
     bottomText: {
         color: 'white',
         fontSize: 12
+    },
+    homeTitleText: {
+        color: 'white',
+        fontSize: 20
+    },
+    homeHeaderNav: {
+        width: 42,
+        height: 42
+    },
+    homeHeader: {
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        marginHorizontal: 24,
+        alignItems: 'center'
+    },
+    iconNav : {
+        width: 25,
+        height: 25
     }
+
 })
 export default StyleCommon

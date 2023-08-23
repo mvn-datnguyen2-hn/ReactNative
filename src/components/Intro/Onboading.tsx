@@ -48,7 +48,7 @@ const Slider : FunctionComponent = () => {
 
     const handleNextButton = () => {
         if (index === Slides.length - 1) {
-            navigation.navigate('PreLogin')
+            navigation.navigate('Start')
             return;
         }
         if (index === Slides.length - 2) {
@@ -66,7 +66,7 @@ const Slider : FunctionComponent = () => {
     return (
         <View style={Colors.backgroundColor}>
             <TouchableOpacity onPress={() => {
-                navigation.navigate('PreLogin')
+                navigation.navigate('Start')
                 }} style={styles.buttonSkip}>
             <Text style={styles.skip}>SKIP</Text>
             </TouchableOpacity>

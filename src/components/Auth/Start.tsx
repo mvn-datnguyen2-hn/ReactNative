@@ -10,7 +10,7 @@ import Button from '../../Common/Button'
 const Login: FunctionComponent = () => {
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     return (
-        <View style={[StyleCommon.container, Colors.backgroundColor]}>
+        <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
             <View style={styles.content}>
                 <Text style={[StyleCommon.title, { opacity: 0.87 }, Colors.white]}>Welcome to UpTodo</Text>
                 <Text numberOfLines={2} ellipsizeMode='tail'

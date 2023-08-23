@@ -14,7 +14,7 @@ const Register: FunctionComponent = () => {
     const [registerEnable, setRegisterEnable] = useState(false)
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     return (
-        <View style={[StyleCommon.container, Colors.backgroundColor]}>
+        <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
             <View style={styles.content}>
                 <Text style={[StyleCommon.title, { opacity: 0.87 }, Colors.white]}>Register</Text>
                 <View style={styles.username}>
@@ -95,7 +95,7 @@ const Register: FunctionComponent = () => {
             <View style={styles.bottomButtonRegister3th}>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../../assets/gglogo.png')}
+                        source={require('../../assets/3thLogo/gglogo.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
@@ -103,7 +103,7 @@ const Register: FunctionComponent = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../../assets/appleicon.png')}
+                        source={require('../../assets/3thLogo/gglogo.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
