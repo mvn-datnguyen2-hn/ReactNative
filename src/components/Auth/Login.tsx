@@ -75,7 +75,7 @@ const Login = () => {
             <View style={styles.bottomButtonLogin3th}>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../assets/gglogo.png')}
+                        source={require('../../assets/gglogo.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
@@ -83,7 +83,7 @@ const Login = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../assets/appleicon.png')}
+                        source={require('../../assets/appleicon.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
