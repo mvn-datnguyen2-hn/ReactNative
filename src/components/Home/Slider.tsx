@@ -1,15 +1,22 @@
 import { Animated, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, {useEffect, useRef, useState} from 'react'
-import Slides from '../data'
+import React, {FunctionComponent, useEffect, useRef, useState} from 'react'
+import Button from '../../Common/Button'
+import Slides from '../../data/introData'
 import SlideItem from './SlideItem'
 import Pagination from './Pagination'
-const Slider = ({navigation}) => {
+import Colors from '../../Common/Colors'
+import StyleCommon from '../../Common/CommonStyles'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackParams } from '../../../App'
+
+const Slider : FunctionComponent = () => {
     const [index, setIndex] = useState(0);
     const [getStart, setGetStart] = useState('NEXT');
     const scrollX = useRef(new Animated.Value(0)).current;
     const slideRef = useRef(null);
-
-    const handleOnScroll = event => {
+    const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+    const handleOnScroll = (event: any) => {
         Animated.event(
             [
                 {
@@ -31,7 +38,7 @@ const Slider = ({navigation}) => {
             setGetStart('NEXT')
         }
     };
-    const handleOnViewableItemsChanged = useRef(({ viewableItems }) => {
+    const handleOnViewableItemsChanged = useRef(({ viewableItems } : any) => {
         setIndex(viewableItems[0].index);
     }).current;
 
@@ -50,13 +57,14 @@ const Slider = ({navigation}) => {
         setIndex(index + 1);
     }
     useEffect(() => {
+        // @ts-ignore: Object is possibly 'null'.
         slideRef.current.scrollToIndex({
             index,
             animated: true
         })
     }, [index])
     return (
-        <View style={styles.container}>
+        <View style={Colors.backgroundColor}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('PreLogin')
                 }} style={styles.buttonSkip}>
@@ -64,7 +72,7 @@ const Slider = ({navigation}) => {
             </TouchableOpacity>
             <FlatList
                 data={Slides}
-                renderItem={({ item }) => <SlideItem item={item} />}
+                renderItem={({ item }) => <SlideItem intro={item} />}
                 initialScrollIndex={index}
                 horizontal
                 pagingEnabled
@@ -73,7 +81,7 @@ const Slider = ({navigation}) => {
                 ref={slideRef}
                 onViewableItemsChanged={handleOnViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(_, index) => index.toString()}
             />
             <Pagination data={Slides} scrollX={scrollX} />
             <View style={styles.bottomButton}>
@@ -85,11 +93,11 @@ const Slider = ({navigation}) => {
                         setGetStart('NEXT')
                     }
                     setIndex(index - 1);
-                }} style={styles.buttonBack}>
-                    <Text style={styles.back}>BACK</Text>
+                }} style={[Button.buttonIntroNavigate]}>
+                    <Text style={[StyleCommon.normalText]}>BACK</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleNextButton} style={ getStart == 'NEXT' ? styles.buttonNext : styles.buttonGetStarted}>
-                    <Text style={styles.next}>{getStart}</Text>
+                <TouchableOpacity onPress={handleNextButton} style={ getStart == 'NEXT' ? [Button.buttonIntroNavigate, Colors.mainButton] : styles.buttonGetStarted}>
+                    <Text style={[StyleCommon.normalText]}>{getStart}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -99,9 +107,6 @@ const Slider = ({navigation}) => {
 export default Slider
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'black'
-    },
     buttonSkip: {
         marginLeft: 24,
     },
@@ -116,29 +121,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 10
-    },
-    back: {
-        color: 'white',
-        fontSize: 16,
-        textAlign: 'center'
-    },
-    next: {
-        color: 'white',
-        fontSize: 16,
-        textAlign: 'center'
-    },
-    buttonBack: {
-        width: 90,
-        height: 48,
-        justifyContent: 'center',
-        borderRadius: 5
-    },
-    buttonNext: {
-        backgroundColor: '#8875FF',
-        width: 90,
-        height: 48,
-        justifyContent: 'center',
-        borderRadius: 5
     },
     buttonGetStarted: {
         backgroundColor: '#8875FF',

@@ -3,10 +3,20 @@ import React from 'react';
 
 const {width} = Dimensions.get('screen');
 
-const Pagination = ({data, scrollX}) => {
+type Props = {
+  id: number;
+  img: number;
+  title: string;
+  description: string;
+};
+interface DotProps {
+  data: Props[],
+  scrollX: any
+}
+const Pagination : React.FC<DotProps> = ({data, scrollX}) : JSX.Element => {
   return (
     <View style={styles.container}>
-      {data.map((_, idx) => {
+      {data.map((_ : any, idx: number) => {
         const inputRange = [(idx - 1) * width, idx * width, (idx + 1) * width];
 
         const dotWidth = scrollX.interpolate({
@@ -33,7 +43,6 @@ const Pagination = ({data, scrollX}) => {
             style={[
               styles.dot,
               {width: dotWidth, backgroundColor, opacity},
-              // idx === index && styles.dotActive,
             ]}
           />
         );
