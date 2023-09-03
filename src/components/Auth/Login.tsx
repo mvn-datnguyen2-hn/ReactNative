@@ -6,16 +6,42 @@ import { StackParams } from '../../../App'
 import StyleCommon from '../../Common/CommonStyles'
 import Colors from '../../Common/Colors'
 import Button from '../../Common/Button'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const { width } = Dimensions.get('screen')
 const Login = () => {
     const [focusUsername, setFocusUsername] = useState(false)
     const [focusPassword, setFocusPassword] = useState(false)
     const [loginEnable, setLoginEnable] = useState(false)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [invalid, setInvalid] = useState(false)
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+    const handleLogin = async () => {
+        setInvalid(false)
+        let tempUserData : any[] = []
+        let userData = await AsyncStorage.getItem('userData')
+        if (userData !== null) {
+            tempUserData = JSON.parse(userData)
+        }
+        if (tempUserData.find((c) => c.username == username && c.password !== password) || !tempUserData.some((c) => c.username == username)) {
+            setInvalid(true)
+            return;
+        }
+        await AsyncStorage.setItem('loginUser', JSON.stringify(username))
+        navigation.navigate('Home')
+        
+    }
     return (
-        <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
+        <View style={
+            [StyleCommon.container,
+            Colors.backgroundColor,
+            { alignItems: 'center' }]}>
             <View style={styles.content}>
-                <Text style={[StyleCommon.title, { opacity: 0.87 }, Colors.white]}>Login</Text>
+                <Text style={
+                    [StyleCommon.title,
+                    { opacity: 0.87 },
+                    Colors.white]}>Login</Text>
                 <View style={styles.username}>
                     <Text style={[StyleCommon.formLabel]}>Username</Text>
                     <TextInput
@@ -28,8 +54,9 @@ const Login = () => {
                                 setFocusUsername(false)
                                 setLoginEnable(false)
                             }
+                            setUsername(text)
                         }}
-                        style={focusUsername == true ? [StyleCommon.formInput,{opacity: 1}] : [StyleCommon.formInput]}
+                        style={focusUsername == true ? [StyleCommon.formInput, { opacity: 1 }] : [StyleCommon.formInput]}
                         placeholderTextColor='white'
                         placeholder='Enter your Username'
                     />
@@ -37,7 +64,7 @@ const Login = () => {
                 <View style={styles.password}>
                     <Text style={[StyleCommon.formLabel]}>Password</Text>
                     <TextInput
-                        style={focusPassword == true ? [StyleCommon.formInput,{opacity: 1, letterSpacing: 3}] : [StyleCommon.formInput, {letterSpacing: 3}]}
+                        style={focusPassword == true ? [StyleCommon.formInput, { opacity: 1, letterSpacing: 3 }] : [StyleCommon.formInput, { letterSpacing: 3 }]}
                         placeholderTextColor='white'
                         placeholder='••••••••••••'
                         secureTextEntry={true}
@@ -50,16 +77,20 @@ const Login = () => {
                                 setFocusPassword(false)
                                 setLoginEnable(false)
                             }
+                            setPassword(text)
                         }}
                     />
                 </View>
+                {invalid == true &&
+                    <Text style={[Colors.red]}>Invalid username or password</Text>
+                }
             </View>
             <View style={styles.bottomButton}>
                 {loginEnable ?
-                    <TouchableOpacity onPress={() => { navigation.navigate('Home')}} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
+                    <TouchableOpacity onPress={handleLogin} style={[Button.largeButton, Colors.mainButton, { marginBottom: 50 }]}>
                         <Text style={[StyleCommon.normalText]}>Login</Text>
                     </TouchableOpacity> :
-                    <TouchableOpacity disabled={true} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50, opacity: 0.5}]}>
+                    <TouchableOpacity disabled={true} style={[Button.largeButton, Colors.mainButton, { marginBottom: 50, opacity: 0.5 }]}>
                         <Text style={[StyleCommon.normalText]}>Login</Text>
                     </TouchableOpacity>
                 }
@@ -73,25 +104,25 @@ const Login = () => {
                 <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
             </View>
             <View style={styles.bottomButtonLogin3th}>
-                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
+                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, { marginBottom: 20 }]}>
                     <Image
                         source={require('../../assets/3thLogo/gglogo.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
-                    <Text style={[StyleCommon.normalText, {marginHorizontal: 3}]}>Login with Google</Text>
+                    <Text style={[StyleCommon.normalText, { marginHorizontal: 3 }]}>Login with Google</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
+                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, { marginBottom: 20 }]}>
                     <Image
                         source={require('../../assets/3thLogo/appleicon.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
-                    <Text style={[StyleCommon.normalText, {marginHorizontal: 3}]}>Login with Apple</Text>
+                    <Text style={[StyleCommon.normalText, { marginHorizontal: 3 }]}>Login with Apple</Text>
                 </TouchableOpacity>
             </View>
             <View style={[StyleCommon.bottomTextBox]}>
-                <Text style={[StyleCommon.bottomText, {opacity: 0.87}]}>Don't have an account? </Text>
+                <Text style={[StyleCommon.bottomText, { opacity: 0.87 }]}>Don't have an account? </Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('Register') }}>
                     <Text style={[StyleCommon.bottomText]}>Register</Text>
                 </TouchableOpacity>

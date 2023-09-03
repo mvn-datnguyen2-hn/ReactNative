@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image} from 'react-native'
 import StyleCommon from '../../Common/CommonStyles'
 import Colors from '../../Common/Colors'
 import React from 'react'
+
 type Props = {
     id: number;
     img: number;
@@ -10,10 +11,9 @@ type Props = {
   };
 interface IntroProps {
     intro: Props,
-  }
+}
 
 const SlideItem : React.FC<IntroProps> = ({intro}) : JSX.Element => {
-    
     return (
         <View style={[StyleCommon.container,{alignItems:'center'}]}>
             <Image source={intro.img} resizeMode='contain' style={StyleCommon.introImg} />

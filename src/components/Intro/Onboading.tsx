@@ -1,5 +1,5 @@
 import { Animated, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, {FunctionComponent, useEffect, useRef, useState} from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import Button from '../../Common/Button'
 import Slides from '../../data/introData'
 import SlideItem from './SlideItem'
@@ -10,7 +10,8 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { StackParams } from '../../../App'
 
-const Slider : FunctionComponent = () => {
+
+const Slider: FunctionComponent = () => {
     const [index, setIndex] = useState(0);
     const [getStart, setGetStart] = useState('NEXT');
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -38,7 +39,7 @@ const Slider : FunctionComponent = () => {
             setGetStart('NEXT')
         }
     };
-    const handleOnViewableItemsChanged = useRef(({ viewableItems } : any) => {
+    const handleOnViewableItemsChanged = useRef(({ viewableItems }: any) => {
         setIndex(viewableItems[0].index);
     }).current;
 
@@ -67,8 +68,8 @@ const Slider : FunctionComponent = () => {
         <View style={Colors.backgroundColor}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('Start')
-                }} style={styles.buttonSkip}>
-            <Text style={styles.skip}>SKIP</Text>
+            }} style={styles.buttonSkip}>
+                <Text style={styles.skip}>SKIP</Text>
             </TouchableOpacity>
             <FlatList
                 data={Slides}
@@ -96,7 +97,7 @@ const Slider : FunctionComponent = () => {
                 }} style={[Button.buttonIntroNavigate]}>
                     <Text style={[StyleCommon.normalText]}>BACK</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleNextButton} style={ getStart == 'NEXT' ? [Button.buttonIntroNavigate, Colors.mainButton] : styles.buttonGetStarted}>
+                <TouchableOpacity onPress={handleNextButton} style={getStart == 'NEXT' ? [Button.buttonIntroNavigate, Colors.mainButton] : styles.buttonGetStarted}>
                     <Text style={[StyleCommon.normalText]}>{getStart}</Text>
                 </TouchableOpacity>
             </View>
@@ -111,9 +112,9 @@ const styles = StyleSheet.create({
         marginLeft: 24,
     },
     skip: {
-        color: 'white', 
-        opacity: 0.44, 
-        height: 24, 
+        color: 'white',
+        opacity: 0.44,
+        height: 24,
         fontSize: 16
     },
     bottomButton: {

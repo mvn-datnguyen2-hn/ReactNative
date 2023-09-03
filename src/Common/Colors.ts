@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const Colors = StyleSheet.create({
+    red: {
+        color: 'red'
+    },
     white: {
         color: '#ffffff'
     },
@@ -12,6 +15,15 @@ const Colors = StyleSheet.create({
     },
     borderColor: { 
         borderColor: '#8875FF'
+    },
+    popUp: {
+        backgroundColor: '#363636'
+    },
+    cancelText: {
+        color: '#8687E7'
+    },
+    priorityBackground: {
+        backgroundColor: '#272727'
     }
 });
 export default Colors

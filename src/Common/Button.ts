@@ -26,6 +26,17 @@ const Button = StyleSheet.create({
         borderColor: '#8875FF',
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    buttonCrud: {
+        width: 153,
+        height: 48,
+        borderRadius: 4,
+        justifyContent: 'center',
+    },
+    buttonPriorCate:{
+        width: 64,
+        height: 64,
+        borderRadius: 8
     }
 })
 export default Button

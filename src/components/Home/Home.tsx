@@ -1,20 +1,27 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import StyleCommon from '../../Common/CommonStyles'
 import Colors from '../../Common/Colors'
+import { Overlay } from '@rneui/themed';
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import AddTask from './AddTask';
+import Button from '../../Common/Button';
 
 
 const Home = () => {
+    const [visibleOverlay, setVisibleOverlay] = useState(false);
     const navigator = useNavigation();
     useFocusEffect(() => {
         navigator.setOptions({
             header: ({ }) => null, // Ẩn nút "Back"
         });
-        });
+    });
+    const toggleOverlay = () => {
+        setVisibleOverlay(!visibleOverlay);
+    };
     return (
-        <View style={[Colors.backgroundColor, {justifyContent: 'space-between'}]}>
-            <View style={[StyleCommon.homeHeader, {marginTop: 50}]}>
+        <View style={[Colors.backgroundColor, { justifyContent: 'space-between' }]}>
+            <View style={[StyleCommon.homeHeader, { marginTop: 50 }]}>
                 <TouchableOpacity onPress={() => { }}>
                     <Image style={[StyleCommon.homeHeaderNav]} source={require('../../assets/HeaderNavIcon/nav.png')} />
                 </TouchableOpacity>
@@ -41,9 +48,9 @@ const Home = () => {
                         <Text style={[StyleCommon.normalText, { fontSize: 12 }]}>Calendar</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={[{ alignItems: 'center', position:'relative'}]}>
+                <TouchableOpacity onPress={toggleOverlay} style={[{ alignItems: 'center', position: 'relative' }]}>
                     <View style={[styles.iconWrapper, Colors.mainButton]}>
-                        <Text style={[StyleCommon.normalText,{fontSize: 30}]}>+</Text>
+                        <Text style={[StyleCommon.normalText, { fontSize: 30 }]}>+</Text>
                     </View>
                 </TouchableOpacity>
                 <View>
@@ -59,6 +66,9 @@ const Home = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Overlay isVisible={visibleOverlay} overlayStyle={[Colors.popUp, { borderRadius: 8 }]} onBackdropPress={toggleOverlay}>
+                <AddTask toggleOverlay={toggleOverlay}></AddTask>
+            </Overlay>
         </View>
     )
 }
@@ -80,7 +90,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 30,
         paddingTop: 10,
-        marginTop:300,
+        marginTop: 300,
         height: '100%'
     },
     iconWrapper: {

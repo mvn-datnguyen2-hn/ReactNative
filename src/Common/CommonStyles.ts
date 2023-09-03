@@ -18,6 +18,7 @@ const StyleCommon = StyleSheet.create({
     title : {
         fontSize: 32,
         fontWeight: 'bold',
+        color: 'white'
     },
     description :{
         textAlign: 'center',

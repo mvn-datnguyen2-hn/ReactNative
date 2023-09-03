@@ -6,13 +6,53 @@ import { StackParams } from '../../../App'
 import StyleCommon from '../../Common/CommonStyles'
 import Colors from '../../Common/Colors'
 import Button from '../../Common/Button'
-const { width, height } = Dimensions.get('screen')
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const { width } = Dimensions.get('screen')
 const Register: FunctionComponent = () => {
     const [focusUsername, setFocusUsername] = useState(false)
     const [focusPassword, setFocusPassword] = useState(false)
-    const [focusConfirmPassword, setConfirmPassword] = useState(false)
+    const [focusConfirmPassword, setFocusConfirmPassword] = useState(false)
     const [registerEnable, setRegisterEnable] = useState(false)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [notMatchPassword, setNotMatchPassword] = useState(false)
+    const [matchedUsername, setMatchedUsername] = useState(false)
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+    let newData: any[] = [];
+    const handleRegister = async () => {
+        //await AsyncStorage.removeItem('userData');
+        setMatchedUsername(false)
+        setNotMatchPassword(false)
+        if (password != confirmPassword) {
+            setNotMatchPassword(true)
+            return;   
+        }
+        let tempUserData = []
+        let userData = await AsyncStorage.getItem('userData');
+        if (userData !== null) {
+            newData = [];
+            tempUserData = JSON.parse(userData);      
+            console.log(tempUserData);
+                  
+            Object.values(tempUserData).map((value) => {
+                newData.push(value)
+            });
+        }
+        if (newData.find((c) => c.username == username)) {
+            setMatchedUsername(true)
+            setNotMatchPassword(false)
+            return;
+        }
+        newData.push({username: username, password: password});
+        console.log(newData);
+        
+        await AsyncStorage.setItem('userData', JSON.stringify(newData))
+            
+        navigation.navigate('Login')
+    }
     return (
         <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
             <View style={styles.content}>
@@ -29,10 +69,12 @@ const Register: FunctionComponent = () => {
                                 setFocusUsername(false)
                                 setRegisterEnable(false)
                             }
+                            setUsername(text)
                         }}
                         style={focusUsername == true ? [StyleCommon.formInput,{opacity: 1}] : [StyleCommon.formInput]}
                         placeholderTextColor='white'
                         placeholder='Enter your Username'
+                        value={username}
                     />
                 </View>
                 <View style={styles.password}>
@@ -51,7 +93,9 @@ const Register: FunctionComponent = () => {
                                 setFocusPassword(false)
                                 setRegisterEnable(false)
                             }
+                            setPassword(text)
                         }}
+                        value={password}
                     />
                 </View>
                 <View style={styles.password}>
@@ -62,21 +106,28 @@ const Register: FunctionComponent = () => {
                         placeholder='••••••••••••'
                         secureTextEntry={true}
                         onChangeText={text => {
-                            setConfirmPassword(true)
+                            setFocusConfirmPassword(true)
                             if (focusUsername && focusPassword) {
                                 setRegisterEnable(true)
                             }
                             if (text.length === 0) {
-                                setConfirmPassword(false)
+                                setFocusConfirmPassword(false)
                                 setRegisterEnable(false)
                             }
+                            setConfirmPassword(text)
                         }}
                     />
                 </View>
+                { matchedUsername == true && 
+                    <Text style={[Colors.red]}>Username is already used</Text>
+                    }
+                { notMatchPassword == true && 
+                    <Text style={[Colors.red]}>Password do not match.</Text>
+                    }
             </View>
             <View style={styles.bottomButton}>
                 {registerEnable ?
-                    <TouchableOpacity onPress={() => { }} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
+                    <TouchableOpacity onPress={handleRegister} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
                         <Text style={[StyleCommon.normalText]}>Register</Text>
                     </TouchableOpacity> :
                     <TouchableOpacity disabled={true} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50, opacity: 0.5}]}>
@@ -103,7 +154,7 @@ const Register: FunctionComponent = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
-                        source={require('../../assets/3thLogo/gglogo.png')}
+                        source={require('../../assets/3thLogo/appleicon.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
