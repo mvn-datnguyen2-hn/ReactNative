@@ -34,57 +34,57 @@ const App = () => {
   }, [])
 
   return (
-    // <NavigationContainer>
-    //   <StatusBar barStyle='light-content' />
-    //   <Stack.Navigator>
-    //     {appUsed == true ?
-    //       <Stack.Screen name='Start' component={Start}
-    //         options={{
-    //           title: '',
-    //           headerStyle: { backgroundColor: 'black' },
-    //           headerTintColor: 'white'
-    //         }} />
-    //       :
-    //       <>
-    //         <Stack.Screen name='Onboading' component={Onboading}
-    //           options={{
-    //             title: '',
-    //             headerStyle: { backgroundColor: 'black' },
-    //           }} />
-    //         <Stack.Screen name='Start' component={Start}
-    //           options={{
-    //             title: '',
-    //             headerStyle: { backgroundColor: 'black' },
-    //             headerTintColor: 'white'
-    //           }} />
-    //       </>
-    //     }
-    //     <Stack.Screen name='Login' component={Login}
-    //       options={{
-    //         title: '',
-    //         headerStyle: { backgroundColor: 'black' },
-    //         headerTintColor: 'white'
-    //       }}
-    //     />
-    //     <Stack.Screen name='Register' component={Register}
-    //       options={{
-    //         title: '',
-    //         headerStyle: { backgroundColor: 'black' },
-    //         headerTintColor: 'white'
-    //       }}
-    //     />
-    //     <Stack.Screen name='Home' component={Home}
-    //       options={{
-    //         title: '',
-    //         headerStyle: { backgroundColor: 'black' },
-    //         headerTintColor: 'white'
-    //       }}
-    //     />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    <SafeAreaView>
-      <AddCategory></AddCategory>
-    </SafeAreaView>
+    <NavigationContainer>
+      <StatusBar barStyle='light-content' />
+      <Stack.Navigator>
+        {appUsed == true ?
+          <Stack.Screen name='Start' component={Start}
+            options={{
+              title: '',
+              headerStyle: { backgroundColor: 'black' },
+              headerTintColor: 'white'
+            }} />
+          :
+          <>
+            <Stack.Screen name='Onboading' component={Onboading}
+              options={{
+                title: '',
+                headerStyle: { backgroundColor: 'black' },
+              }} />
+            <Stack.Screen name='Start' component={Start}
+              options={{
+                title: '',
+                headerStyle: { backgroundColor: 'black' },
+                headerTintColor: 'white'
+              }} />
+          </>
+        }
+        <Stack.Screen name='Login' component={Login}
+          options={{
+            title: '',
+            headerStyle: { backgroundColor: 'black' },
+            headerTintColor: 'white'
+          }}
+        />
+        <Stack.Screen name='Register' component={Register}
+          options={{
+            title: '',
+            headerStyle: { backgroundColor: 'black' },
+            headerTintColor: 'white'
+          }}
+        />
+        <Stack.Screen name='Home' component={Home}
+          options={{
+            title: '',
+            headerStyle: { backgroundColor: 'black' },
+            headerTintColor: 'white'
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+    // <SafeAreaView>
+    //   <AddCategory></AddCategory>
+    // </SafeAreaView>
 
   )
 }

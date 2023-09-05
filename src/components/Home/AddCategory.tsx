@@ -4,12 +4,69 @@ import Colors from '../../Common/Colors'
 import StyleCommon from '../../Common/CommonStyles'
 import colorCode from '../../data/colorCode'
 import Button from '../../Common/Button'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import {launchImageLibrary} from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddCategory = () => {
   const [focusCategory, setFocusCategory] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const [categoryColor, setCategoryColor] = useState('');
-  console.log(colorCode);
+  const [filePath, setFilePath] = useState(null);
+  const navigator = useNavigation();
+    useFocusEffect(() => {
+        navigator.setOptions({
+            header: ({ }) => null, // Ẩn nút "Back"
+        });
+    });
+  const chooseFile = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false
+    };
+    // @ts-ignore
+    launchImageLibrary(options ,(response: any) => {
+
+      if (response.didCancel) {
+        setFilePath(null);
+      } else if (response.error) {
+        setFilePath(null);
+      } else if (response.customButton) {
+        console.log(
+          'User tapped custom button: ',
+          response.customButton
+        );
+      } else {
+        let source = response.uri || response.assets?.[0]?.uri;
+        setFilePath(source);
+      }
+    });
+  };
+  const handleCreate = async () => {
+    let tempCate = []
+    let categories = await AsyncStorage.getItem('categories')
+    if (categories !== null) {
+      tempCate = JSON.parse(categories)
+      tempCate.push({
+        id: tempCate.length + 1,
+        name: categoryName,
+        color: categoryColor,
+        icon: filePath
+      })
+      console.log(tempCate);
+      await AsyncStorage.setItem('categories', JSON.stringify(tempCate))
+      return
+    }
+    tempCate.push({
+      id: 1,
+      name: categoryName,
+      color: categoryColor,
+      icon: filePath
+    })
+    console.log(tempCate);
+    
+    await AsyncStorage.setItem('categories', JSON.stringify(tempCate))
+  }
   return (
     <View style={[Colors.backgroundColor, StyleCommon.container, {paddingHorizontal: 20}]}>
         <Text style={[StyleCommon.title, {fontSize: 20}]}>Create new category</Text>
@@ -31,10 +88,16 @@ const AddCategory = () => {
         </View>
         <View style={{marginVertical: 15}}>
             <Text style={[StyleCommon.formLabel]}>Category icon:</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={chooseFile}>
+              {filePath !== null ? 
+              <View style={[Colors.popUp, {width: 42, height: 42, borderRadius: 6, justifyContent: 'center', alignItems: 'center'}]}>
+              <Image style={[StyleCommon.iconNav]} source={{ uri: filePath }}/>
+              </View> : 
               <View style={[Colors.popUp, {width: 154, height: 37, borderRadius: 6, justifyContent: 'center'}]}>
-                  <Text style={[StyleCommon.normalText,{fontSize: 11}]}>Choose icon from library</Text>
+              <Text style={[StyleCommon.normalText,{fontSize: 11}]}>Choose icon from library</Text>
               </View>
+              }
+              
             </TouchableOpacity>
         </View>
         <View>
@@ -54,10 +117,10 @@ const AddCategory = () => {
           />
         </View>
         <View style={styles.categoryButton}>
-            <TouchableOpacity onPress={() => {}} style={[Button.buttonCrud]}>
+            <TouchableOpacity onPress={() => {navigator.goBack()}} style={[Button.buttonCrud]}>
               <Text style={[StyleCommon.normalText, Colors.cancelText]}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {  }} style={[Button.buttonCrud, Colors.mainButton]}>
+            <TouchableOpacity onPress={handleCreate} style={[Button.buttonCrud, Colors.mainButton]}>
               <Text style={[StyleCommon.normalText]}>Create Category</Text>
             </TouchableOpacity>
           </View>

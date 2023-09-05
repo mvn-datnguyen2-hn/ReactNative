@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, FlatList, TouchableWithoutFeedback, Touchable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import StyleCommon from '../../Common/CommonStyles'
 import { Calendar } from 'react-native-calendars'
 import { Overlay } from '@rneui/themed';
@@ -7,7 +7,6 @@ import Colors from '../../Common/Colors';
 import Button from '../../Common/Button';
 import DatePicker from 'react-native-date-picker';
 import priority from '../../data/priority';
-import category from '../../data/category';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
@@ -28,6 +27,7 @@ const AddTask: React.FC<Props> = ({ toggleOverlay }) => {
   const [focusPriority, setFocusPriority] = useState(0)
   const [focusCategory, setFocusCategory] = useState(0)
   const [cate, setCategory] = useState(0)
+  const [categories, setCategories] = useState<any[]>([])
   const [work, setWork] = useState('')
   const [descript, setDescript] = useState('')
   //
@@ -42,10 +42,14 @@ const AddTask: React.FC<Props> = ({ toggleOverlay }) => {
     setVisibleAdd(!visibleAdd);
     setVisiblePriority(!visiblePriority);
   };
-  const toggleCategory = () => {
+  const toggleCategory = async () => {
     setVisibleAdd(!visibleAdd);
     setVisibleCategory(!visibleCategory);
     setCategory(focusCategory);
+    let cates = await AsyncStorage.getItem('categories')
+        if (cates !== null) {
+          setCategories(JSON.parse(cates))
+        }
   };
   let tasks: any[] = []
   const handleAddTask = async () => {
@@ -53,34 +57,34 @@ const AddTask: React.FC<Props> = ({ toggleOverlay }) => {
 
     let userData = await AsyncStorage.getItem('loginUser')
     AsyncStorage.getItem('userTasks')
-      .then( async (t) => {
+      .then(async (t) => {
         tasks = t ? JSON.parse(t) : [];
         if (userData !== null) {
           let user = JSON.parse(userData)
-            if (!tasks.some((c) => c.username == user)) { 
-              tasks.push({
-                username: user,
-                todos: [{
-                  name: work,
-                  descript: descript,
-                  time: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
-                  date: selected,
-                  priority: focusPriority,
-                  category: cate
-                }]
-              })
-              await AsyncStorage.setItem('userTasks', JSON.stringify(tasks))
-              return
-            }
-            let index = tasks.findIndex(c => c.username == user);
-            tasks[index].todos.push({
-              name: work,
-              descript: descript,
-              time: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
-              date: selected,
-              priority: focusPriority,
-              category: cate
+          if (!tasks.some((c) => c.username == user)) {
+            tasks.push({
+              username: user,
+              todos: [{
+                name: work,
+                descript: descript,
+                time: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
+                date: selected,
+                priority: focusPriority,
+                category: cate
+              }]
             })
+            await AsyncStorage.setItem('userTasks', JSON.stringify(tasks))
+            return
+          }
+          let index = tasks.findIndex(c => c.username == user);
+          tasks[index].todos.push({
+            name: work,
+            descript: descript,
+            time: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
+            date: selected,
+            priority: focusPriority,
+            category: cate
+          })
         }
         await AsyncStorage.setItem('userTasks', JSON.stringify(tasks))
       });
@@ -124,8 +128,6 @@ const AddTask: React.FC<Props> = ({ toggleOverlay }) => {
               defaultValue={descript}
             />
           </View>
-          {/* <Text style={[StyleCommon.normalText]}>{date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}</Text>
-          <Text style={[StyleCommon.normalText]}>{selected}</Text> */}
           <View style={styles.bottomNav}>
             <View style={styles.settingProp}>
               <TouchableOpacity onPress={toggleCalendar}>
@@ -237,10 +239,12 @@ const AddTask: React.FC<Props> = ({ toggleOverlay }) => {
             <View style={{ flex: 1, height: 0.5, backgroundColor: 'white' }} />
           </View>
           <View>
+            
             <FlatList
-              data={category}
+              data={categories}
               numColumns={3}
               renderItem={({ item }) => (
+                console.log(item),
                 <View>
                   <TouchableOpacity onPress={() => {
                     setFocusCategory(item.id)
@@ -249,7 +253,7 @@ const AddTask: React.FC<Props> = ({ toggleOverlay }) => {
                     styles.categoryItem,
                     focusCategory === item.id ? { borderWidth: 3, borderColor: '#8875FF' } : {},
                     { backgroundColor: item.color }]}>
-                    <Image style={styles.categoryIcon} source={item.icon} />
+                    <Image style={styles.categoryIcon} source={{uri: item.icon}} />
                   </TouchableOpacity>
                   <Text style={[StyleCommon.normalText, { fontSize: 14, marginTop: 8 }]}>{item.name}</Text>
                 </View>
