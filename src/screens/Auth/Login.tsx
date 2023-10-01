@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { StackParams } from '../../../App'
-import StyleCommon from '../../Common/CommonStyles'
-import Colors from '../../Common/Colors'
-import Button from '../../Common/Button'
+import StyleCommon from '../../common/CommonStyles'
+import Spacing from '../../common/Spacing'
+import Colors from '../../common/Colors'
+import Button from '../../common/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('screen')
@@ -19,7 +20,7 @@ const Login = () => {
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     const handleLogin = async () => {
         setInvalid(false)
-        let tempUserData : any[] = []
+        let tempUserData: any[] = []
         let userData = await AsyncStorage.getItem('userData')
         if (userData !== null) {
             tempUserData = JSON.parse(userData)
@@ -30,19 +31,21 @@ const Login = () => {
         }
         await AsyncStorage.setItem('loginUser', JSON.stringify(username))
         navigation.navigate('Home')
-        
+
     }
     return (
         <View style={
             [StyleCommon.container,
-            Colors.backgroundColor,
-            { alignItems: 'center' }]}>
+            StyleCommon.blackBackground,
+            StyleCommon.alignItemCenter]
+        }
+        >
             <View style={styles.content}>
                 <Text style={
                     [StyleCommon.title,
-                    { opacity: 0.87 },
-                    Colors.white]}>Login</Text>
-                <View style={styles.username}>
+                    styles.textLogin
+                    ]}>Login</Text>
+                <View style={Spacing.marginTop50}>
                     <Text style={[StyleCommon.formLabel]}>Username</Text>
                     <TextInput
                         onChangeText={text => {
@@ -56,15 +59,15 @@ const Login = () => {
                             }
                             setUsername(text)
                         }}
-                        style={focusUsername == true ? [StyleCommon.formInput, { opacity: 1 }] : [StyleCommon.formInput]}
+                        style={focusUsername == true ? [StyleCommon.formInput, StyleCommon.defaultOpacity] : [StyleCommon.formInput]}
                         placeholderTextColor='white'
                         placeholder='Enter your Username'
                     />
                 </View>
-                <View style={styles.password}>
+                <View style={Spacing.marginTop20}>
                     <Text style={[StyleCommon.formLabel]}>Password</Text>
                     <TextInput
-                        style={focusPassword == true ? [StyleCommon.formInput, { opacity: 1, letterSpacing: 3 }] : [StyleCommon.formInput, { letterSpacing: 3 }]}
+                        style={[styles.letterSpacing3, focusPassword == true ? [StyleCommon.formInput, StyleCommon.defaultOpacity] : [StyleCommon.formInput]]}
                         placeholderTextColor='white'
                         placeholder='••••••••••••'
                         secureTextEntry={true}
@@ -82,47 +85,47 @@ const Login = () => {
                     />
                 </View>
                 {invalid == true &&
-                    <Text style={[Colors.red]}>Invalid username or password</Text>
+                    <Text style={StyleCommon.textError}>Invalid username or password</Text>
                 }
             </View>
-            <View style={styles.bottomButton}>
+            <View style={Spacing.marginTop80}>
                 {loginEnable ?
-                    <TouchableOpacity onPress={handleLogin} style={[Button.largeButton, Colors.mainButton, { marginBottom: 50 }]}>
+                    <TouchableOpacity onPress={handleLogin} style={[Button.largeButton, StyleCommon.mainButtonColor, Spacing.marginBottom50]}>
                         <Text style={[StyleCommon.normalText]}>Login</Text>
                     </TouchableOpacity> :
-                    <TouchableOpacity disabled={true} style={[Button.largeButton, Colors.mainButton, { marginBottom: 50, opacity: 0.5 }]}>
+                    <TouchableOpacity disabled={true} style={[Button.largeButton, StyleCommon.mainButtonColor, styles.loginDisable]}>
                         <Text style={[StyleCommon.normalText]}>Login</Text>
                     </TouchableOpacity>
                 }
 
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', width: 327 }}>
-                <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
+            <View style={StyleCommon.lineSeperateWrap}>
+                <View style={StyleCommon.lineSeparate} />
                 <View>
-                    <Text style={{ width: 20, textAlign: 'center', color: 'white' }}>or</Text>
+                    <Text style={StyleCommon.orText}>or</Text>
                 </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
+                <View style={StyleCommon.lineSeparate} />
             </View>
-            <View style={styles.bottomButtonLogin3th}>
-                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, { marginBottom: 20 }]}>
+            <View style={Spacing.marginTop30}>
+                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, Spacing.marginBottom20]}>
                     <Image
                         source={require('../../assets/3thLogo/gglogo.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
-                    <Text style={[StyleCommon.normalText, { marginHorizontal: 3 }]}>Login with Google</Text>
+                    <Text style={[StyleCommon.normalText, Spacing.marginHorizontal3]}>Login with Google</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, { marginBottom: 20 }]}>
+                <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, Spacing.marginBottom20]}>
                     <Image
                         source={require('../../assets/3thLogo/appleicon.png')}
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
-                    <Text style={[StyleCommon.normalText, { marginHorizontal: 3 }]}>Login with Apple</Text>
+                    <Text style={[StyleCommon.normalText, Spacing.marginHorizontal3]}>Login with Apple</Text>
                 </TouchableOpacity>
             </View>
             <View style={[StyleCommon.bottomTextBox]}>
-                <Text style={[StyleCommon.bottomText, { opacity: 0.87 }]}>Don't have an account? </Text>
+                <Text style={[StyleCommon.bottomText, StyleCommon.opacity87]}>Don't have an account? </Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('Register') }}>
                     <Text style={[StyleCommon.bottomText]}>Register</Text>
                 </TouchableOpacity>
@@ -140,16 +143,14 @@ const styles = StyleSheet.create({
         marginTop: 50,
         textAlign: 'left'
     },
-    bottomButton: {
-        marginTop: 80
+    textLogin: {
+        opacity: 0.87,
+        color: Colors.WHITE
     },
-    username: {
-        marginTop: 50
+    loginDisable: {
+        marginBottom: 50, opacity: 0.5
     },
-    password: {
-        marginTop: 20
-    },
-    bottomButtonLogin3th: {
-        marginTop: 30
+    letterSpacing3: {
+        letterSpacing: 3
     }
 })

@@ -1,23 +1,27 @@
 import { SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import Onboading from './src/components/Intro/Onboading'
+import Onboading from './src/screens/Intro/Onboading'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Start from './src/components/Auth/Start';
-import Login from './src/components/Auth/Login';
-import Register from './src/components/Auth/Register';
-import Home from './src/components/Home/Home';
+import Start from './src/screens/Auth/Start';
+import Login from './src/screens/Auth/Login';
+import Register from './src/screens/Auth/Register';
+import Home from './src/screens/Home/Home';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AddTask from './src/components/Home/AddTask';
-import AddCategory from './src/components/Home/AddCategory';
+import AddTask from './src/components/TaskModify/Add/AddTask';
+import AddCategory from './src/components/CategoryModify/AddCategory/AddCategory';
+import Task from './src/screens/Home/Task';
+import EditTask from './src/components/TaskModify/Edit/EditTask';
 export type StackParams = {
   Home: any;
   Start: any;
   Login: any;
   Register: any;
   Onboading: any;
+  Edit: any;
 }
 const Stack = createNativeStackNavigator<StackParams>();
+
 const App = () => {
   const [appUsed, setAppUsed] = useState(false);
   useEffect(() => {
@@ -80,10 +84,17 @@ const App = () => {
             headerTintColor: 'white'
           }}
         />
+        <Stack.Screen name='Edit' component={EditTask}
+          options={{
+            title: '',
+            headerStyle: { backgroundColor: 'black' },
+            headerTintColor: 'white'
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
     // <SafeAreaView>
-    //   <AddCategory></AddCategory>
+    //   <EditTask></EditTask>
     // </SafeAreaView>
 
   )

@@ -3,33 +3,34 @@ import React, { FunctionComponent } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { StackParams } from '../../../App'
-import StyleCommon from '../../Common/CommonStyles'
-import Colors from '../../Common/Colors'
-import Button from '../../Common/Button'
+import StyleCommon from '../../common/CommonStyles'
+import Colors from '../../common/Colors'
+import Button from '../../common/Button'
+import Spacing from '../../common/Spacing'
 
 const Login: FunctionComponent = () => {
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     return (
-        <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
+        <View style={[StyleCommon.container, StyleCommon.blackBackground, StyleCommon.alignItemCenter]}>
             <View style={styles.content}>
-                <Text style={[StyleCommon.title, { opacity: 0.87 }, Colors.white]}>Welcome to UpTodo</Text>
+                <Text style={[StyleCommon.title, StyleCommon.opacity87, StyleCommon.whiteText]}>Welcome to UpTodo</Text>
                 <Text numberOfLines={2} ellipsizeMode='tail'
                     style={[
                         StyleCommon.description,
-                        { width: 300, marginTop: 50, opacity: 0.47 },
-                        Colors.white]}>
+                        styles.question,
+                        StyleCommon.whiteText]}>
                     Please login to your account or create new account to continue
                 </Text>
             </View>
-            <View style={styles.bottomButton}>
+            <View style={Spacing.marginTop350}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Login')
-                }} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
+                }} style={[Button.largeButton, StyleCommon.mainButtonColor,{marginBottom: 50}]}>
                     <Text style={[StyleCommon.normalText]}>LOGIN</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Register')
-                }} style={[Button.largeButton,{borderWidth: 2}, Colors.borderColor]}>
+                }} style={[Button.largeButton,styles.createButton]}>
                     <Text style={[StyleCommon.normalText]}>CREATE ACCOUNT</Text>
                 </TouchableOpacity>
             </View>
@@ -45,7 +46,12 @@ const styles = StyleSheet.create({
         marginTop: 100,
         alignItems: 'center',
     },
-    bottomButton: {
-        marginTop: 350
+    createButton: {
+        borderWidth: 2,
+        backgroundColor: Colors.PRIMARY1
     },
+    question: {
+        width: 300, marginTop: 50, opacity: 0.47
+    },
+    
 })

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image} from 'react-native'
-import StyleCommon from '../../Common/CommonStyles'
-import Colors from '../../Common/Colors'
+import StyleCommon from '../../common/CommonStyles'
 import React from 'react'
+import Spacing from '../../common/Spacing';
 
 type Props = {
     id: number;
@@ -15,14 +15,14 @@ interface IntroProps {
 
 const SlideItem : React.FC<IntroProps> = ({intro}) : JSX.Element => {
     return (
-        <View style={[StyleCommon.container,{alignItems:'center'}]}>
+        <View style={[StyleCommon.container,StyleCommon.alignItemCenter]}>
             <Image source={intro.img} resizeMode='contain' style={StyleCommon.introImg} />
             <View style={styles.content}>
-                <Text style={[StyleCommon.title, Colors.white]}>{intro.title}</Text>
+                <Text style={[StyleCommon.title, StyleCommon.whiteText]}>{intro.title}</Text>
                 <Text numberOfLines={2} ellipsizeMode='tail' 
                 style={[
                     StyleCommon.description, 
-                    {width: 310, marginVertical: 50},Colors.white]}>{intro.description}</Text>
+                    styles.descript,StyleCommon.whiteText, Spacing.marginVertical50]}>{intro.description}</Text>
             </View>
         </View>
     )
@@ -34,6 +34,9 @@ const styles = StyleSheet.create({
         flex: 0.4,
         marginTop: 50,
         alignItems: 'center',
+    },
+    descript: {
+        width: 310
     }
 })
 export default SlideItem

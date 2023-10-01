@@ -3,10 +3,10 @@ import React, { FunctionComponent, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { StackParams } from '../../../App'
-import StyleCommon from '../../Common/CommonStyles'
-import Colors from '../../Common/Colors'
-import Button from '../../Common/Button'
+import StyleCommon from '../../common/CommonStyles'
+import Button from '../../common/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spacing from '../../common/Spacing'
 
 
 const { width } = Dimensions.get('screen')
@@ -54,10 +54,10 @@ const Register: FunctionComponent = () => {
         navigation.navigate('Login')
     }
     return (
-        <View style={[StyleCommon.container, Colors.backgroundColor, {alignItems:'center'}]}>
+        <View style={[StyleCommon.container, StyleCommon.blackBackground, {alignItems:'center'}]}>
             <View style={styles.content}>
-                <Text style={[StyleCommon.title, { opacity: 0.87 }, Colors.white]}>Register</Text>
-                <View style={styles.username}>
+                <Text style={[StyleCommon.title, StyleCommon.opacity87, StyleCommon.whiteText]}>Register</Text>
+                <View style={Spacing.marginTop30}>
                     <Text style={[StyleCommon.formLabel]}>Username</Text>
                     <TextInput
                         onChangeText={text => {
@@ -71,16 +71,16 @@ const Register: FunctionComponent = () => {
                             }
                             setUsername(text)
                         }}
-                        style={focusUsername == true ? [StyleCommon.formInput,{opacity: 1}] : [StyleCommon.formInput]}
+                        style={focusUsername == true ? [StyleCommon.formInput,StyleCommon.defaultOpacity] : [StyleCommon.formInput]}
                         placeholderTextColor='white'
                         placeholder='Enter your Username'
                         value={username}
                     />
                 </View>
-                <View style={styles.password}>
+                <View style={Spacing.marginTop20}>
                     <Text style={[StyleCommon.formLabel]}>Password</Text>
                     <TextInput
-                        style={focusPassword == true ? [StyleCommon.formInput,{opacity: 1, letterSpacing: 3}] : [StyleCommon.formInput, {letterSpacing: 3}]}
+                        style={[styles.letterSpacing3, focusPassword == true ? [StyleCommon.formInput, StyleCommon.defaultOpacity] : [StyleCommon.formInput]]}
                         placeholderTextColor='white'
                         placeholder='••••••••••••'
                         secureTextEntry={true}
@@ -98,10 +98,10 @@ const Register: FunctionComponent = () => {
                         value={password}
                     />
                 </View>
-                <View style={styles.password}>
+                <View style={Spacing.marginTop20}>
                     <Text style={[StyleCommon.formLabel]}>ConfirmPassword</Text>
                     <TextInput
-                        style={focusConfirmPassword == true ? [StyleCommon.formInput,{opacity: 1, letterSpacing: 3}] : [StyleCommon.formInput, {letterSpacing: 3}]}
+                        style={[styles.letterSpacing3, focusConfirmPassword == true ? [StyleCommon.formInput, StyleCommon.defaultOpacity] : [StyleCommon.formInput]]}
                         placeholderTextColor='white'
                         placeholder='••••••••••••'
                         secureTextEntry={true}
@@ -119,31 +119,31 @@ const Register: FunctionComponent = () => {
                     />
                 </View>
                 { matchedUsername == true && 
-                    <Text style={[Colors.red]}>Username is already used</Text>
+                    <Text style={StyleCommon.textError}>Username is already used</Text>
                     }
                 { notMatchPassword == true && 
-                    <Text style={[Colors.red]}>Password do not match.</Text>
+                    <Text style={StyleCommon.textError}>Password do not match.</Text>
                     }
             </View>
-            <View style={styles.bottomButton}>
+            <View style={Spacing.marginTop50}>
                 {registerEnable ?
-                    <TouchableOpacity onPress={handleRegister} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50}]}>
+                    <TouchableOpacity onPress={handleRegister} style={[Button.largeButton, StyleCommon.mainButtonColor,Spacing.marginBottom50]}>
                         <Text style={[StyleCommon.normalText]}>Register</Text>
                     </TouchableOpacity> :
-                    <TouchableOpacity disabled={true} style={[Button.largeButton, Colors.mainButton,{marginBottom: 50, opacity: 0.5}]}>
+                    <TouchableOpacity disabled={true} style={[Button.largeButton, StyleCommon.mainButtonColor,styles.loginDisable]}>
                         <Text style={[StyleCommon.normalText]}>Register</Text>
                     </TouchableOpacity>
                 }
 
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', width: 327 }}>
-                <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
+            <View style={StyleCommon.lineSeperateWrap}>
+                <View style={StyleCommon.lineSeparate} />
                 <View>
-                    <Text style={{ width: 20, textAlign: 'center', color: 'white' }}>or</Text>
+                    <Text style={StyleCommon.orText}>or</Text>
                 </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
+                <View style={StyleCommon.lineSeparate} />
             </View>
-            <View style={styles.bottomButtonRegister3th}>
+            <View style={Spacing.marginTop30}>
                 <TouchableOpacity onPress={() => { }} style={[Button.buttonAuth3th, {marginBottom: 20}]}>
                     <Image
                         source={require('../../assets/3thLogo/gglogo.png')}
@@ -158,11 +158,11 @@ const Register: FunctionComponent = () => {
                         resizeMode='contain'
                         style={[StyleCommon.icon]}
                     />
-                    <Text style={[StyleCommon.normalText, {marginHorizontal: 3}]}>Register with Apple</Text>
+                    <Text style={[StyleCommon.normalText, Spacing.marginHorizontal3]}>Register with Apple</Text>
                 </TouchableOpacity>
             </View>
             <View style={[StyleCommon.bottomTextBox]}>
-                <Text style={[StyleCommon.bottomText, {opacity: 0.87}]}>Already have an account? </Text>
+                <Text style={[StyleCommon.bottomText, StyleCommon.opacity87]}>Already have an account? </Text>
                 <TouchableOpacity onPress={() => { navigation.navigate('Login') }}>
                     <Text style={[StyleCommon.bottomText]}>Login</Text>
                 </TouchableOpacity>
@@ -179,16 +179,10 @@ const styles = StyleSheet.create({
         marginLeft: 60,
         textAlign: 'left'
     },
-    bottomButton: {
-        marginTop: 50
+    letterSpacing3: {
+        letterSpacing: 3
     },
-    username: {
-        marginTop: 30
+    loginDisable: {
+        marginBottom: 50, opacity: 0.5
     },
-    password: {
-        marginTop: 20
-    },
-    bottomButtonRegister3th: {
-        marginTop: 30
-    }
 })

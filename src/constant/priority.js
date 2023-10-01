@@ -41,3 +41,4 @@ export default [
     },
 
 ];
+//add redux, api, form, coding convention, source code, - style inline

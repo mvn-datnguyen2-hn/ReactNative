@@ -1,11 +1,11 @@
 import { Animated, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
-import Button from '../../Common/Button'
-import Slides from '../../data/introData'
+import Button from '../../common/Button'
+import Slides from '../../constant/introData'
 import SlideItem from './SlideItem'
 import Pagination from './Pagination'
-import Colors from '../../Common/Colors'
-import StyleCommon from '../../Common/CommonStyles'
+import Colors from '../../common/Colors'
+import StyleCommon from '../../common/CommonStyles'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { StackParams } from '../../../App'
@@ -65,7 +65,7 @@ const Slider: FunctionComponent = () => {
         })
     }, [index])
     return (
-        <View style={Colors.backgroundColor}>
+        <View style={StyleCommon.blackBackground}>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('Start')
             }} style={styles.buttonSkip}>
@@ -97,7 +97,7 @@ const Slider: FunctionComponent = () => {
                 }} style={[Button.buttonIntroNavigate]}>
                     <Text style={[StyleCommon.normalText]}>BACK</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleNextButton} style={getStart == 'NEXT' ? [Button.buttonIntroNavigate, Colors.mainButton] : styles.buttonGetStarted}>
+                <TouchableOpacity onPress={handleNextButton} style={getStart == 'NEXT' ? [Button.buttonIntroNavigate, StyleCommon.mainButtonColor] : styles.buttonGetStarted}>
                     <Text style={[StyleCommon.normalText]}>{getStart}</Text>
                 </TouchableOpacity>
             </View>

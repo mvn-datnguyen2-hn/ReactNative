@@ -1,29 +1,13 @@
-import { StyleSheet } from "react-native";
-
-const Colors = StyleSheet.create({
-    red: {
-        color: 'red'
-    },
-    white: {
-        color: '#ffffff'
-    },
-    backgroundColor: {
-        backgroundColor: '#000000'
-    },
-    mainButton: { 
-        backgroundColor: '#8875FF'
-    },
-    borderColor: { 
-        borderColor: '#8875FF'
-    },
-    popUp: {
-        backgroundColor: '#363636'
-    },
-    cancelText: {
-        color: '#8687E7'
-    },
-    priorityBackground: {
-        backgroundColor: '#272727'
-    }
-});
+const Colors = {
+    RED: 'red',
+    WHITE: '#ffffff',
+    BLACK: '#000000',
+    PRIMARY1: '#8875FF',
+    PRIMARY2: '#8687E7',
+    OVERLAY: '#363636',
+    PRIORITYITEMBACKGROUND: '#272727',
+    GREENSOFT: '#88FFD1',
+    GREEN: 'green'
+}
 export default Colors
+
